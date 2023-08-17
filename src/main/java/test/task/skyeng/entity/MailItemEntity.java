@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "mail_iltem")
+@Table(name = "mail_item")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,11 +19,11 @@ public class MailItemEntity {
 
     private ItemType type;
 
-    @Column(name = "recepient_index")
+    @Column(name = "recipient_index")
     private String recipientIndex;
-    @Column(name = "recepient_address")
+    @Column(name = "recipient_address")
     private String recipientAddress;
-    @Column(name = "recepient_name")
+    @Column(name = "recipient_name")
     private String recipientName;
 
 }
