@@ -20,14 +20,14 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
 
-  flyway:
-    user: ${spring.datasource.username}
-    password: ${spring.datasource.password}
-    url: ${spring.datasource.url}
-    baseline-on-migrate: true
+#  flyway:
+#    user: ${spring.datasource.username}
+#    password: ${spring.datasource.password}
+#    url: ${spring.datasource.url}
+#    baseline-on-migrate: true
 
 
 logging:

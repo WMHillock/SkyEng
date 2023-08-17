@@ -1,12 +1,13 @@
 package test.task.skyeng.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import test.task.skyeng.entity.MailItemEntity;
+import org.springframework.stereotype.Repository;
 import test.task.skyeng.entity.MailItemHistoryEntity;
 
 import java.util.List;
 
+@Repository
 public interface MailItemHistoryRepository extends JpaRepository<MailItemHistoryEntity, Long> {
 
-    List<MailItemHistoryEntity> findByMailItemOrderByInteractionDate(MailItemEntity mailItemEntity);
+    List<MailItemHistoryEntity> findByMailItemIdOrderByTimestampDesc(Long mailItemId);
 }

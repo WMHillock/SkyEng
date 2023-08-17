@@ -1,4 +1,4 @@
-package test.task.skyeng.entity;
+package test.task.skyeng.entity.enums;
 
 public enum ItemType {
     PARCEL,
