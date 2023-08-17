@@ -1,0 +1,36 @@
+server:
+  port: 9000
+  shutdown: graceful
+
+spring:
+  application:
+    name: SkyEng
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+
+  datasource:
+    username: sa
+    password:
+    url: jdbc:h2:mem:skyeng
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  flyway:
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    url: ${spring.datasource.url}
+    baseline-on-migrate: true
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
