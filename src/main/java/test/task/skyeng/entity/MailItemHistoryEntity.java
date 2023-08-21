@@ -20,8 +20,9 @@ public class MailItemHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "mail_item_id")
-    private Long mailItemId;
+    @ManyToOne
+    @JoinColumn(name = "mail_item_id")
+    private MailItemEntity mailItem;
     @Column(name = "interaction_type")
     private InteractionType interactionType;
     private LocalDateTime timestamp;
@@ -30,13 +31,4 @@ public class MailItemHistoryEntity {
     @ManyToOne
     private PostalOfficeEntity officeToDelivery;
 
-    public static MailItemHistoryEntity fromMailItemEntity(MailItemEntity mailItemEntity) {
-        return MailItemHistoryEntity.builder()
-                .mailItemId(mailItemEntity.getId())
-                .interactionType(mailItemEntity.getState())
-                .timestamp(LocalDateTime.now())
-                .currentOffice(mailItemEntity.getCurrentOffice())
-                .officeToDelivery(null)
-                .build();
-    }
 }
