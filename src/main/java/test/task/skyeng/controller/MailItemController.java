@@ -1,19 +1,17 @@
 package test.task.skyeng.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import test.task.skyeng.entity.MailItemEntity;
 import test.task.skyeng.entity.MailItemHistoryEntity;
-import test.task.skyeng.entity.PostalOfficeEntity;
 import test.task.skyeng.service.MailItemService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/mail-items")
+@RequestMapping("/mail-items")
 public class MailItemController {
 
     private final MailItemService mailItemService;
@@ -23,38 +21,36 @@ public class MailItemController {
         this.mailItemService = mailItemService;
     }
 
-    @Operation(summary = "Создание отправления - удалите id в JSON для создания отправления, id генерируется автоматически")
     @PostMapping
-    public ResponseEntity<MailItemEntity> createMailItem(@RequestBody MailItemEntity mailItem) {
-        MailItemEntity createdMailItem = mailItemService.createMailItem(mailItem);
-        return new ResponseEntity<>(createdMailItem, HttpStatus.CREATED);
+    public ResponseEntity<MailItemEntity> createMailItem(@RequestBody MailItemEntity mailItem,
+                                                         @RequestParam Long currentOfficeId) {
+        MailItemEntity createdMailItem = mailItemService.createMailItem(mailItem, currentOfficeId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdMailItem);
     }
 
     @PostMapping("/{mailItemId}/send")
-    public ResponseEntity<MailItemEntity> sendMailItem(
-            @PathVariable Long mailItemId,
-            @RequestBody PostalOfficeEntity newOffice) {
-        MailItemEntity sentMailItem = mailItemService.sendMailItem(mailItemId, newOffice);
-        return new ResponseEntity<>(sentMailItem, HttpStatus.OK);
+    public ResponseEntity<MailItemEntity> sendMailItem(@PathVariable Long mailItemId,
+                                                       @RequestParam Long newOfficeId) {
+        MailItemEntity sentMailItem = mailItemService.sendMailItem(mailItemId, newOfficeId);
+        return ResponseEntity.ok(sentMailItem);
     }
 
     @PostMapping("/{mailItemId}/receive")
-    public ResponseEntity<MailItemEntity> receiveMailItem(
-            @PathVariable Long mailItemId,
-            @RequestBody PostalOfficeEntity receivingOffice) {
-        MailItemEntity receivedMailItem = mailItemService.receiveMailItem(mailItemId, receivingOffice);
-        return new ResponseEntity<>(receivedMailItem, HttpStatus.OK);
+    public ResponseEntity<MailItemEntity> receiveMailItem(@PathVariable Long mailItemId,
+                                                          @RequestParam Long receivingOfficeId) {
+        MailItemEntity receivedMailItem = mailItemService.receiveMailItem(mailItemId, receivingOfficeId);
+        return ResponseEntity.ok(receivedMailItem);
     }
 
     @PostMapping("/{mailItemId}/deliver")
     public ResponseEntity<MailItemEntity> deliverMailItem(@PathVariable Long mailItemId) {
         MailItemEntity deliveredMailItem = mailItemService.deliverMailItem(mailItemId);
-        return new ResponseEntity<>(deliveredMailItem, HttpStatus.OK);
+        return ResponseEntity.ok(deliveredMailItem);
     }
 
     @GetMapping("/{mailItemId}/history")
     public ResponseEntity<List<MailItemHistoryEntity>> getMailItemHistory(@PathVariable Long mailItemId) {
         List<MailItemHistoryEntity> history = mailItemService.getMailItemHistory(mailItemId);
-        return new ResponseEntity<>(history, HttpStatus.OK);
+        return ResponseEntity.ok(history);
     }
 }

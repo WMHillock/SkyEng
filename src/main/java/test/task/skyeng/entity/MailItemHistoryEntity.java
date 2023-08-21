@@ -21,15 +21,24 @@ public class MailItemHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private LocalDateTime timestamp;
+
+    private boolean onTheWay;
+
     @ManyToOne
     @JoinColumn(name = "mail_item_id")
     private MailItemEntity mailItem;
+
     @Enumerated(EnumType.STRING)
     private InteractionType interactionType;
-    private LocalDateTime timestamp;
 
-    private Long currentOffice;
+    @ManyToOne
+    @JoinColumn(name = "current_office")
+    private PostalOfficeEntity currentOffice;
 
-    private String officeToDelivery;
+    @ManyToOne
+    @JoinColumn(name = "office_to_delivery")
+    private PostalOfficeEntity officeToDelivery;
 
 }
