@@ -7,36 +7,48 @@ import test.task.skyeng.entity.MailItemHistoryEntity;
 import test.task.skyeng.entity.PostalOfficeEntity;
 import test.task.skyeng.entity.enums.InteractionType;
 import test.task.skyeng.repository.MailItemHistoryRepository;
+import test.task.skyeng.repository.PostalOfficeRepository;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-
-import test.task.skyeng.repository.PostalOfficeRepository;
 
 @Service
 @Transactional
 public class MailItemHistoryService {
 
     private final MailItemHistoryRepository historyRepository;
-    private final PostalOfficeRepository postalRepository;
+    private final PostalOfficeRepository postalOfficeRepository;
 
     @Autowired
-    public MailItemHistoryService(MailItemHistoryRepository historyRepository, PostalOfficeRepository postalRepository) {
+    public MailItemHistoryService(MailItemHistoryRepository historyRepository, PostalOfficeRepository postalOfficeRepository) {
         this.historyRepository = historyRepository;
-        this.postalRepository = postalRepository;
+        this.postalOfficeRepository = postalOfficeRepository;
     }
 
-    public void saveHistory(MailItemEntity mailItem, InteractionType state, PostalOfficeEntity currentOffice) {
-
+    public MailItemHistoryEntity saveHistory(MailItemEntity mailItem, InteractionType interactionType, Long currentOfficeId) {
+        PostalOfficeEntity deliveryOffice = getOfficeByIndex(mailItem);
+        PostalOfficeEntity currentOffice = getOfficeById(currentOfficeId);
         MailItemHistoryEntity historyEntry = MailItemHistoryEntity.builder()
                 .mailItem(mailItem)
-                .interactionType(state)
+                .interactionType(interactionType)
                 .timestamp(LocalDateTime.now())
-                .currentOffice(currentOffice.getId())
-                .officeToDelivery(mailItem.getRecipientIndex())
+                .onTheWay(interactionType == InteractionType.SENT)
+                .currentOffice(currentOffice)
+                .officeToDelivery(deliveryOffice)
                 .build();
 
-        historyRepository.save(historyEntry);
+        return historyRepository.save(historyEntry);
+    }
 
+    public PostalOfficeEntity getOfficeByIndex(MailItemEntity mailItem) {
+        return postalOfficeRepository.findByIndex(mailItem.getRecipientIndex());
+    }
+
+    public PostalOfficeEntity getOfficeById(Long currentOfficeId) {
+        return postalOfficeRepository.findById(currentOfficeId)
+                .orElseThrow(() -> new EntityNotFoundException("Office not found"));
     }
 }
+
+

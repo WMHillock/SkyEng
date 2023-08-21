@@ -12,9 +12,10 @@ import javax.transaction.Transactional;
 @Transactional
 public class PostalOfficeService {
 
-    @Autowired
+
     private PostalOfficeRepository postalOfficeRepository;
 
+    @Autowired
     public PostalOfficeEntity createPostalOffice(PostalOfficeEntity postalOffice) {
         return postalOfficeRepository.save(postalOffice);
     }
