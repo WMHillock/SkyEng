@@ -1,5 +1,6 @@
 package test.task.skyeng.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,12 +24,12 @@ public class MailItemHistoryEntity {
     @ManyToOne
     @JoinColumn(name = "mail_item_id")
     private MailItemEntity mailItem;
-    @Column(name = "interaction_type")
+    @Enumerated(EnumType.STRING)
     private InteractionType interactionType;
     private LocalDateTime timestamp;
-    @ManyToOne
-    private PostalOfficeEntity currentOffice;
-    @ManyToOne
-    private PostalOfficeEntity officeToDelivery;
+
+    private Long currentOffice;
+
+    private String officeToDelivery;
 
 }

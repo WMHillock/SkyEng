@@ -7,20 +7,23 @@ import test.task.skyeng.entity.MailItemHistoryEntity;
 import test.task.skyeng.entity.PostalOfficeEntity;
 import test.task.skyeng.entity.enums.InteractionType;
 import test.task.skyeng.repository.MailItemHistoryRepository;
-import test.task.skyeng.repository.MailItemRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
+import test.task.skyeng.repository.PostalOfficeRepository;
+
 @Service
+@Transactional
 public class MailItemHistoryService {
 
     private final MailItemHistoryRepository historyRepository;
-    private final MailItemRepository mailItemRepository;
+    private final PostalOfficeRepository postalRepository;
 
     @Autowired
-    public MailItemHistoryService(MailItemHistoryRepository historyRepository, MailItemRepository mailItemRepository) {
+    public MailItemHistoryService(MailItemHistoryRepository historyRepository, PostalOfficeRepository postalRepository) {
         this.historyRepository = historyRepository;
-        this.mailItemRepository = mailItemRepository;
+        this.postalRepository = postalRepository;
     }
 
     public void saveHistory(MailItemEntity mailItem, InteractionType state, PostalOfficeEntity currentOffice) {
@@ -29,9 +32,11 @@ public class MailItemHistoryService {
                 .mailItem(mailItem)
                 .interactionType(state)
                 .timestamp(LocalDateTime.now())
-                .currentOffice(currentOffice)
+                .currentOffice(currentOffice.getId())
+                .officeToDelivery(mailItem.getRecipientIndex())
                 .build();
 
         historyRepository.save(historyEntry);
+
     }
 }
