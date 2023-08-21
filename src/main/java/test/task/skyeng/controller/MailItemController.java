@@ -1,5 +1,6 @@
 package test.task.skyeng.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class MailItemController {
         this.mailItemService = mailItemService;
     }
 
+    @Operation(summary = "Создание отправления - удалите id в JSON для создания отправления, id генерируется автоматически")
     @PostMapping
     public ResponseEntity<MailItemEntity> createMailItem(@RequestBody MailItemEntity mailItem) {
         MailItemEntity createdMailItem = mailItemService.createMailItem(mailItem);

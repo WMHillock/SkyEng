@@ -10,9 +10,11 @@ import test.task.skyeng.repository.MailItemHistoryRepository;
 import test.task.skyeng.repository.MailItemRepository;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class MailItemService {
 
     private final MailItemRepository mailItemRepository;

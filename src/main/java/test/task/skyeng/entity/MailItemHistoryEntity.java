@@ -1,5 +1,6 @@
 package test.task.skyeng.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,23 +21,15 @@ public class MailItemHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "mail_item_id")
-    private Long mailItemId;
-    @Column(name = "interaction_type")
+    @ManyToOne
+    @JoinColumn(name = "mail_item_id")
+    private MailItemEntity mailItem;
+    @Enumerated(EnumType.STRING)
     private InteractionType interactionType;
     private LocalDateTime timestamp;
-    @ManyToOne
-    private PostalOfficeEntity currentOffice;
-    @ManyToOne
-    private PostalOfficeEntity officeToDelivery;
 
-    public static MailItemHistoryEntity fromMailItemEntity(MailItemEntity mailItemEntity) {
-        return MailItemHistoryEntity.builder()
-                .mailItemId(mailItemEntity.getId())
-                .interactionType(mailItemEntity.getState())
-                .timestamp(LocalDateTime.now())
-                .currentOffice(mailItemEntity.getCurrentOffice())
-                .officeToDelivery(null)
-                .build();
-    }
+    private Long currentOffice;
+
+    private String officeToDelivery;
+
 }
