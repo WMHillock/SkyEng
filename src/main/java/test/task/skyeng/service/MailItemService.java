@@ -38,10 +38,7 @@ public class MailItemService {
 
     public MailItemEntity sendMailItem(Long mailItemId, Long newOfficeId) {
         MailItemEntity mailItem = getMailItemById(mailItemId);
-
-        if (newOfficeId == null) {
-            throw new IllegalArgumentException("New office ID cannot be null");
-        }
+        validateOffice(newOfficeId);
 
         mailItemHistoryService.saveHistory(mailItem, InteractionType.SENT, newOfficeId);
         return mailItemRepository.save(mailItem);
@@ -49,10 +46,7 @@ public class MailItemService {
 
     public MailItemEntity receiveMailItem(Long mailItemId, Long receivingOfficeId) {
         MailItemEntity mailItem = getMailItemById(mailItemId);
-
-        if (receivingOfficeId == null) {
-            throw new IllegalArgumentException("Receiving office ID cannot be null");
-        }
+        validateOffice(receivingOfficeId);
 
         mailItemHistoryService.saveHistory(mailItem, InteractionType.ARRIVED, receivingOfficeId);
         return mailItemRepository.save(mailItem);
@@ -60,6 +54,7 @@ public class MailItemService {
 
     public MailItemEntity deliverMailItem(Long mailItemId, Long deliveryOffice) {
         MailItemEntity mailItem = getMailItemById(mailItemId);
+        validateOffice(deliveryOffice);
 
         mailItemHistoryService.saveHistory(mailItem, InteractionType.DELIVERED, deliveryOffice);
         return mailItemRepository.save(mailItem);
@@ -80,6 +75,11 @@ public class MailItemService {
             throw new EntityNotFoundException("Postal office not found for index: " + index);
         }
         return office.getId();
+    }
+
+    public void validateOffice(Long officeId) {
+        postalOfficeRepository.findById(officeId)
+                .orElseThrow(() -> new EntityNotFoundException("Office not found"));
     }
 }
 
