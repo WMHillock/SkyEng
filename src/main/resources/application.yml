@@ -20,7 +20,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: none #автогенерация отключена
     show-sql: true
 
   flyway:
