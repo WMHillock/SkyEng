@@ -11,8 +11,12 @@ import test.task.skyeng.service.PostalOfficeService;
 @RequestMapping("/postal-offices")
 public class PostalOfficeController {
 
-    @Autowired
+
     private PostalOfficeService postalOfficeService;
+    @Autowired
+    public PostalOfficeController (PostalOfficeService postalOfficeService) {
+        this.postalOfficeService = postalOfficeService;
+    }
 
     @PostMapping
     public ResponseEntity<PostalOfficeEntity> createPostalOffice(@RequestBody PostalOfficeEntity postalOffice) {

@@ -74,12 +74,12 @@ public class MailItemService {
         return historyRepository.findByMailItemIdOrderByTimestampDesc(mailItemId);
     }
 
-    private MailItemEntity getMailItemById(Long mailItemId) {
+    public MailItemEntity getMailItemById(Long mailItemId) {
         return mailItemRepository.findById(mailItemId)
                 .orElseThrow(() -> new EntityNotFoundException("Mail item not found"));
     }
 
-    private Long getOfficeIdByIndex(String index) {
+    public Long getOfficeIdByIndex(String index) {
         PostalOfficeEntity office = postalOfficeRepository.findByIndex(index);
         if (office == null) {
             throw new EntityNotFoundException("Postal office not found for index: " + index);

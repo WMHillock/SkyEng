@@ -13,9 +13,15 @@ import javax.transaction.Transactional;
 public class PostalOfficeService {
 
 
-    private PostalOfficeRepository postalOfficeRepository;
+    private final PostalOfficeRepository postalOfficeRepository;
 
     @Autowired
+    public PostalOfficeService(PostalOfficeRepository postalOfficeRepository) {
+        this.postalOfficeRepository = postalOfficeRepository;
+    }
+
+
+
     public PostalOfficeEntity createPostalOffice(PostalOfficeEntity postalOffice) {
         return postalOfficeRepository.save(postalOffice);
     }
@@ -26,7 +32,11 @@ public class PostalOfficeService {
     }
 
     public PostalOfficeEntity getPostalOfficeByIndex(String index) {
-        return postalOfficeRepository.findByIndex(index);
+        PostalOfficeEntity postalOffice = postalOfficeRepository.findByIndex(index);
+        if (postalOffice == null) {
+            throw new EntityNotFoundException("Postal office not found for index: " + index);
+        }
+        return postalOffice;
     }
 }
 
