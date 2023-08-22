@@ -58,15 +58,10 @@ public class MailItemService {
         return mailItemRepository.save(mailItem);
     }
 
-    public MailItemEntity deliverMailItem(Long mailItemId) {
+    public MailItemEntity deliverMailItem(Long mailItemId, Long deliveryOffice) {
         MailItemEntity mailItem = getMailItemById(mailItemId);
-        Long currentOfficeId = getOfficeIdByIndex(mailItem.getRecipientIndex());
 
-        if (currentOfficeId == null) {
-            throw new EntityNotFoundException("Postal office not found for index: " + mailItem.getRecipientIndex());
-        }
-
-        mailItemHistoryService.saveHistory(mailItem, InteractionType.DELIVERED, currentOfficeId);
+        mailItemHistoryService.saveHistory(mailItem, InteractionType.DELIVERED, deliveryOffice);
         return mailItemRepository.save(mailItem);
     }
 
@@ -74,12 +69,12 @@ public class MailItemService {
         return historyRepository.findByMailItemIdOrderByTimestampDesc(mailItemId);
     }
 
-    private MailItemEntity getMailItemById(Long mailItemId) {
+    public MailItemEntity getMailItemById(Long mailItemId) {
         return mailItemRepository.findById(mailItemId)
                 .orElseThrow(() -> new EntityNotFoundException("Mail item not found"));
     }
 
-    private Long getOfficeIdByIndex(String index) {
+    public Long getOfficeIdByIndex(String index) {
         PostalOfficeEntity office = postalOfficeRepository.findByIndex(index);
         if (office == null) {
             throw new EntityNotFoundException("Postal office not found for index: " + index);
