@@ -5,19 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import test.task.skyeng.entity.MailItemEntity;
-import test.task.skyeng.entity.MailItemHistoryEntity;
 import test.task.skyeng.entity.PostalOfficeEntity;
 import test.task.skyeng.entity.enums.InteractionType;
 import test.task.skyeng.repository.MailItemHistoryRepository;
 import test.task.skyeng.repository.MailItemRepository;
 import test.task.skyeng.repository.PostalOfficeRepository;
-import test.task.skyeng.service.MailItemHistoryService;
-import test.task.skyeng.service.MailItemService;
 
 import javax.persistence.EntityNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class MailItemServiceTest {

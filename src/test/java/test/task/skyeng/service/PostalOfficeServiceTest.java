@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import test.task.skyeng.entity.PostalOfficeEntity;
 import test.task.skyeng.repository.PostalOfficeRepository;
-import test.task.skyeng.service.PostalOfficeService;
 
 import javax.persistence.EntityNotFoundException;
 

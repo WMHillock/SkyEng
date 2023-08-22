@@ -52,12 +52,12 @@ public class MailItemHistoryServiceTest {
         when(postalOfficeRepository.findById(currentOfficeId)).thenReturn(java.util.Optional.of(currentOffice));
 
         MailItemHistoryEntity savedHistoryEntry = new MailItemHistoryEntity();
-        savedHistoryEntry.setMailItem(mailItem); // Set the mailItem in history entry
-        savedHistoryEntry.setInteractionType(interactionType); // Set the interactionType
-        savedHistoryEntry.setCurrentOffice(currentOffice); // Set the currentOffice
-        savedHistoryEntry.setOfficeToDelivery(deliveryOffice); // Set the officeToDelivery
-        savedHistoryEntry.setTimestamp(LocalDateTime.now()); // Set timestamp
-        savedHistoryEntry.setOnTheWay(true); // Set onTheWay to true
+        savedHistoryEntry.setMailItem(mailItem);
+        savedHistoryEntry.setInteractionType(interactionType);
+        savedHistoryEntry.setCurrentOffice(currentOffice);
+        savedHistoryEntry.setOfficeToDelivery(deliveryOffice);
+        savedHistoryEntry.setTimestamp(LocalDateTime.now());
+        savedHistoryEntry.setOnTheWay(true);
 
         when(historyRepository.save(any(MailItemHistoryEntity.class))).thenReturn(savedHistoryEntry);
 
@@ -70,12 +70,6 @@ public class MailItemHistoryServiceTest {
         assertEquals(currentOffice, historyEntry.getCurrentOffice());
         assertEquals(deliveryOffice, historyEntry.getOfficeToDelivery());
     }
-
-
-
-
-
-    // Write similar test cases for other methods
 
     @Test
     public void testGetOfficeByIndex() {
