@@ -76,11 +76,12 @@ public class MailItemControllerTest {
     @Test
     public void testDeliverMailItem() {
         Long mailItemId = 1L;
+        Long deliveryOfficeId = 1L;
         MailItemEntity mailItem = new MailItemEntity();
 
-        when(mailItemService.deliverMailItem(eq(mailItemId))).thenReturn(mailItem);
+        when(mailItemService.deliverMailItem(eq(mailItemId), eq(deliveryOfficeId))).thenReturn(mailItem);
 
-        ResponseEntity<MailItemEntity> response = mailItemController.deliverMailItem(mailItemId);
+        ResponseEntity<MailItemEntity> response = mailItemController.deliverMailItem(mailItemId, deliveryOfficeId);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());

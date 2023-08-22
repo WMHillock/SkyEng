@@ -58,15 +58,10 @@ public class MailItemService {
         return mailItemRepository.save(mailItem);
     }
 
-    public MailItemEntity deliverMailItem(Long mailItemId) {
+    public MailItemEntity deliverMailItem(Long mailItemId, Long deliveryOffice) {
         MailItemEntity mailItem = getMailItemById(mailItemId);
-        Long currentOfficeId = getOfficeIdByIndex(mailItem.getRecipientIndex());
 
-        if (currentOfficeId == null) {
-            throw new EntityNotFoundException("Postal office not found for index: " + mailItem.getRecipientIndex());
-        }
-
-        mailItemHistoryService.saveHistory(mailItem, InteractionType.DELIVERED, currentOfficeId);
+        mailItemHistoryService.saveHistory(mailItem, InteractionType.DELIVERED, deliveryOffice);
         return mailItemRepository.save(mailItem);
     }
 

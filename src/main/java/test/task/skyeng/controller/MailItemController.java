@@ -43,8 +43,9 @@ public class MailItemController {
     }
 
     @PostMapping("/{mailItemId}/deliver")
-    public ResponseEntity<MailItemEntity> deliverMailItem(@PathVariable Long mailItemId) {
-        MailItemEntity deliveredMailItem = mailItemService.deliverMailItem(mailItemId);
+    public ResponseEntity<MailItemEntity> deliverMailItem(@PathVariable Long mailItemId,
+                                                          @RequestParam Long deliveryOffice) {
+        MailItemEntity deliveredMailItem = mailItemService.deliverMailItem(mailItemId, deliveryOffice);
         return ResponseEntity.ok(deliveredMailItem);
     }
 
