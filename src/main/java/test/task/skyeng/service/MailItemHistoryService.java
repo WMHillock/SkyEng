@@ -1,5 +1,6 @@
 package test.task.skyeng.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import test.task.skyeng.entity.MailItemEntity;
 import test.task.skyeng.entity.MailItemHistoryEntity;
@@ -19,6 +20,7 @@ public class MailItemHistoryService {
     private final MailItemHistoryRepository historyRepository;
     private final PostalOfficeRepository postalOfficeRepository;
 
+    @Autowired
     public MailItemHistoryService(MailItemHistoryRepository historyRepository, PostalOfficeRepository postalOfficeRepository) {
         this.historyRepository = historyRepository;
         this.postalOfficeRepository = postalOfficeRepository;
