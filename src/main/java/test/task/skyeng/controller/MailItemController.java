@@ -22,7 +22,7 @@ public class MailItemController {
         this.mailItemService = mailItemService;
     }
 
-    @Operation(summary = "Создание отправления, В ТЕСТОВОМ JSON НЕ ДОЛЖНО БЫТЬ ПОЛЯ ID, СОВСЕМ!")
+    @Operation(summary = "Создание отправления, удалите поле id из Request body")
     @PostMapping
     public ResponseEntity<MailItemEntity> createMailItem(@RequestBody MailItemEntity mailItem,
                                                          @RequestParam Long currentOfficeId) {
